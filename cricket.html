@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bat ball stump</title>
+  <link rel="stylesheet" href="cricket.css">
+
+</head>
+<body>
+  <H1>Bat Ball Stump Game</H1>
+  <hr>
+  <!-- Bat buttom -->
+  <button class="button" onclick="
+  let userchoice='bat'; 
+  let computerchoices = generatecomputerchoice();
+  let resultmsgg =resultmsg(userchoice,computerchoices);
+  alertmsg(userchoice,computerchoices,resultmsgg);
+  "><img src="OIP.jpg" alt="BAt image" class="image"></button>
+
+  <!-- Ball buttom -->
+  <button class="button" onclick="
+  computerchoices = generatecomputerchoice();
+  userchoice='ball'
+  resultmsgg =resultmsg(userchoice,computerchoices);
+  alertmsg(userchoice,computerchoices,resultmsgg);
+  "><img src="images (1).jpeg" alt="BALL image" class="image"></button>
+
+  <!-- Stump buttom -->
+  <button  class="button" onclick="
+  userchoice='stump'
+  computerchoices = generatecomputerchoice();
+  resultmsgg =resultmsg(userchoice,computerchoices);
+  alertmsg(userchoice,computerchoices,resultmsgg);"
+  ><img src="OIP (1).jpg" alt="STUMP image" class="image"></button>
+
+  <h3 id="usermove"></h3>
+  <h3 id="computermove"></h3>
+  <h3 id="result"></h3>
+  <h3 id="score"></h3>
+
+
+<button id="reset" onclick="localStorage.clear();
+  resetscore();
+  ">reset</button>
+
+
+
+  <script>
+    let score;
+    let scorestr= localStorage.getItem('score');
+    resetscore(scorestr);
+   
+
+    function resetscore(scorestr){
+      score = scorestr ? JSON.parse(scorestr): {
+         win:0,
+         lost:0,
+         tie:0
+     }
+
+         score.displayscore = function(){
+         return `here your score is won ${score.win} ,Lose ${score.lost} and Tie ${score.tie}`
+      }
+      alertmsg();
+    }
+
+   //function for computerchoice
+    function generatecomputerchoice(){
+     let  randomnumber=Math.random()*3;
+     if (randomnumber>0 && randomnumber<=1){
+        return 'Bat';
+       }
+     else if (randomnumber>1 && randomnumber<=2){
+        return 'Ball';
+       }
+     else{
+        return 'stump';
+     }}
+
+   //function for resultmsg
+    function resultmsg(userchoose,computerchoice)
+    {
+      if (userchoose==='bat'){
+        if (computerchoice === 'Ball'){
+          score.win++
+          return 'You won'
+          
+         }
+        else if(computerchoice === 'Bat'){
+          score.tie++
+          return` IT's a Tie`
+          
+         }
+        else if (computerchoice === 'stump'){
+          score.lost++
+          return  'computer won'
+          
+         }
+       }
+     else if(userchoose==='ball'){
+        if (computerchoice === 'stump'){
+          score.win++
+          return 'You won'
+          
+         }
+        else if(computerchoice === 'Ball'){
+          score.tie++
+          return ` IT's a Tie`
+          
+         }
+        else if(computerchoice=== 'Bat'){
+          score.lost++
+          return 'computer won'
+          
+         }
+       }
+     else if(userchoose==='stump' )
+        if (computerchoice === 'Bat'){
+           score.win++
+          return 'You won'
+         
+         }
+        else if(computerchoice === 'stump'){
+          score.tie++
+          return ` IT's a Tie`
+          
+         }
+        else{
+          score.lost++
+          return 'computer won'
+          
+         } 
+       }
+     
+
+    //function for alert msg
+   function alertmsg(userchoice,computerchoices,resultmsgg){
+     localStorage.setItem('score',JSON.stringify(score))
+     document.querySelector('#usermove').innerHTML = userchoice  ? `Your choice is ${userchoice}` : '';
+     document.querySelector('#computermove').innerHTML = computerchoices  ? `computer choice is ${computerchoices}` : '';
+     document.querySelector('#result').innerHTML = resultmsgg  ?`${resultmsgg}` : '';
+     document.querySelector('#score').innerHTML = ` ${score.displayscore()}`;
+     
+     
+   }
+
+   //store in local storage 
+
+  </script>
+</body>
+</html>
